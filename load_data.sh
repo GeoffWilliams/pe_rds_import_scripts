@@ -44,7 +44,7 @@ else
 		# step 2 - load extensions
 		$PSQL --username $PE_ADMIN_USER --host $HOSTNAME $DB --command "CREATE EXTENSION citext;"
 		$PSQL --username $PE_ADMIN_USER --host $HOSTNAME $DB --command "CREATE EXTENSION plpgsql;"
-		
+		$PSQL --username $PE_ADMIN_USER --host $HOSTNAME $DB --command "CREATE EXTENSION pg_trgm;"		
 		# step 3 - load the data as the owner of the database
 		$PG_RESTORE \
 			-d $DB \
