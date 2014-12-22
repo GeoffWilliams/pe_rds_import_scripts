@@ -1,5 +1,0 @@
-/etc/puppetlabs/puppet-dashboard/database.yml
-/etc/puppetlabs/console-services/conf.d/activity-database.conf
-/etc/puppetlabs/console-services/conf.d/classifier-database.conf
-/etc/puppetlabs/puppetdb/conf.d/database.ini
-/etc/puppetlabs/console-services/conf.d/rbac-database.conf

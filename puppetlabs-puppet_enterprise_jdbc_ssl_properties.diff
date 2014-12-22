@@ -1,0 +1,21 @@
+diff --git a/manifests/init.pp b/manifests/init.pp
+index a3e6e1a..cde2bb6 100644
+--- a/manifests/init.pp
++++ b/manifests/init.pp
+@@ -83,6 +83,7 @@ class puppet_enterprise (
+   $rbac_url_prefix                 = $puppet_enterprise::params::rbac_url_prefix,
+ 
+   $database_ssl                    = true,
++  $jdbc_ssl_properties             = $puppet_enterprise::params::jdbc_ssl_properties,
+ 
+   $mcollective_middleware_hosts    = $puppet_enterprise::params::activemq_brokers,
+   $mcollective_middleware_port     = 61613,
+@@ -109,7 +110,7 @@ class puppet_enterprise (
+   # just defaults.
+ 
+   if $database_ssl {
+-    $database_properties = $puppet_enterprise::params::jdbc_ssl_properties
++    $database_properties = $jdbc_ssl_properties
+   } else {
+     $database_properties = ''
+   }
