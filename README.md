@@ -3,6 +3,9 @@
 Quick and dirty BASH scripts, awkfoo and procedure to load data from Puppet 
 Enterprise 3.7.1+ into Amazon RDS.
 
+**There is no warranty if you choose to follow this guide and PuppetLabs do 
+not provide support for this** 
+
 ##Procedure
 With a little awk-foo, its possible to take advantage of the Amazon RDS 
 PostgreSQL service to gain features such as multi-datacenter replication, PIT
@@ -186,6 +189,41 @@ changes yourself.
 If after rebooting or during the initial puppet run you see connection errors, 
 ensure your not being affected by [PE-7078](https://tickets.puppetlabs.com/browse/PE-7078)
 , otherwise, follow the troubleshooting steps below.
+
+## Verify and cleanup
+Once the installation is verified working, there are a few cleanup actions to
+get rid of temporary backup files and double check that the `pe-postgres` 
+account was indeed locked-out:
+
+**Verify `pe-postgres` user locked**
+Before cleaning up the `.pgpass` file, use it to connect manually and ensure 
+the temporary password for the `pe-postgres` user was successfully set to 
+`null`.  Since you don't have permission to read the `pg_shadow` table, you can
+test this by attempting to connect using the password in `.pgpass`:
+
+```
+/opt/puppet/bin/psql --user pe-postgres --host NEW_DATABASE_SERVER postgres
+```
+
+**Temporary files cleanup**
+1. This downloaded git repository 
+2. `~/.pgpass`
+3. Configuration backup files:
+  * /etc/puppetlabs/console-services/conf.d/classifier-database.conf.orig
+  * /etc/puppetlabs/console-services/conf.d/rbac-database.conf.orig
+  * /etc/puppetlabs/console-services/conf.d/activity-database.conf.orig
+  * /etc/puppetlabs/puppet-dashboard/database.yml.orig
+  * /etc/puppetlabs/puppetdb/conf.d/database.ini.orig
+4. It's not possible to remove the `pe-postgresql` package without removing 
+   most of puppet itself, so it can simply be left dormant on the system with
+   it's database deleted from `/opt/puppet/var/lib/pgsql/9.2/data/`
+
+## Assumptions
+This guide assumes:
+* Puppet Enterprise 3.7.1
+* Amazon RDS running PostgreSQL 9.3.5
+* RHEL/CentOS 6.5 64bit
+* This git repository is checked out on the puppetmaster
 
 ## Troubleshooting
 In-case of connection errors check:
