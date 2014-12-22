@@ -70,4 +70,6 @@ else
   echo "Removing temporary password"
   $PSQL --username $ADMIN_USER --host $HOSTNAME $SERVICE_DATABASE --command \
     "ALTER ROLE 'pe-postgres' WITH PASSWORD NULL;"
+
+  echo "DON'T FORGET TO CLEANUP YOUR ~/.pgpass FILE!"
 fi

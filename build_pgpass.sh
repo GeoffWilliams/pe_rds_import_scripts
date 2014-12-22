@@ -52,3 +52,4 @@ update_pgpass $USERNAME $PASSWORD $DATABASE
 #pe-postgres - doesn't have a password by default, set one now and we will NULL it after loading data
 update_pgpass pe-postgres $TEMP_PASSWORD "*"
 
+chmod 600 ~/.pgpass

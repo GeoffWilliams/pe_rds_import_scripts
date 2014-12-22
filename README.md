@@ -17,9 +17,8 @@ either Puppet or RDS.  Therefore, its advisable to perform a dry run before
 committing to a migration.
 
 The major steps to migrate are: 
-* Backup your puppetmaster(!)
-Then:
 
+0. Backup your puppetmaster(!)
 1. Provision an RDS PostgreSQL server
 2. Shutdown all puppet components except pe-postgresql
 3. Database dump on puppet master
@@ -48,6 +47,11 @@ the pe-postgresql database server itself.
 Investigate the `service` or `systemctl` commands to do this depending whether
 your puppetmaster is using systemd or not.
 
+Once all services are shutdown, disable the puppet agent to prevent it changing
+configuration files back to previous values:
+
+`puppet agent --disable`
+
 ### Database dump on puppet master
 The Amazon RDS system doesn't allow access to the database superuser account 
 and also imposes a requirement to keep its own management database on the 
@@ -68,7 +72,30 @@ be saved to the current directory.  You need to run the script as `root` so
 that it can `su` to the `pe-postgres` user to perform the dumps.
 
 ### Database restore on RDS PostgreSQL server
+You would normally restore data as the superuser but this account isn't 
+available to you on RDS and you will get permission errors if you try to use 
+the RDS admin user you created as it isn't a *true* superuser.
 
+Therefore, each database needs to be restored as *itself*.
+
+#### Preparation
+You must prepare the system to connect to the various puppet databases.  This
+is achieved by using the [`.pgpass` authentication mechanism](https://wiki.postgresql.org/wiki/Pgpass) 
+built into Postgres. 
+
+The files listed in the troubleshooting section contain all of the required 
+account details and these can be munged into a suitable `.pgpass` file by 
+running the script `build_pgpass.sh`.  The script takes one argument - the name
+of the RDS server to connect to.
+
+Run the script and then edit the resulting `~/.pgpass` file to add in the 
+details of the RDS admin account you created when provisioning the instance.
+
+See link above for details of the `.pgpass` file format.
+
+#### Import
+
+  The `load_data.sh`
 
 ### Update puppetmaster to use the RDS PostgreSQL server
 
