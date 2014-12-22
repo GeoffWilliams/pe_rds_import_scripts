@@ -1,13 +1,20 @@
 #!/bin/bash
+
+# RDS server name
 HOSTNAME=$1
+
+# The name of your amazon RDS admin user
 ADMIN_USER="root"
+
+# Default database to connect to for service commands.  If you filled in a 
+# database name while creating your RDS instance you need to match it here
 SERVICE_DATABASE="postgres"
 PG_RESTORE="/opt/puppet/bin/pg_restore"
 PSQL="/opt/puppet/bin/psql"
 AWK="/bin/awk"
 PE_ADMIN_USER="pe-postgres"
 
-# skip template0 - its a blank file
+# List of databases to restore (order is important!)
 DBS="template1
 console
 pe-activity
@@ -18,9 +25,14 @@ if [ "$HOSTNAME" == "" ] ; then
 	echo "must supply hostname (and ~/.pgpass must exist)"
 else 
 
+  # First create the database users...
 	$PSQL --host $HOSTNAME $SERVICE_DATABASE < users.sql
+
+  # restore each DB..
 	for DB in $DBS ; do
 		if [ "$DB" == "template1" ] ; then
+      # template1 database should be owned by pe-postgres, rest of databases
+      # are restored as their own users
 			USER=$PE_ADMIN_USER
 		else
 			USER=$DB
@@ -53,4 +65,9 @@ else
 			--no-tablespaces \
 			$DUMP_FILE
 	done
+
+  # finally, remove the temporary password
+  echo "Removing temporary password"
+  $PSQL --username $ADMIN_USER --host $HOSTNAME $SERVICE_DATABASE --command \
+    "ALTER ROLE 'pe-postgres' WITH PASSWORD NULL;"
 fi

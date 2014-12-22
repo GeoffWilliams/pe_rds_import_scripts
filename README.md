@@ -16,8 +16,9 @@ YMMV with large established installations or if there have been changes to
 either Puppet or RDS.  Therefore, its advisable to perform a dry run before 
 committing to a migration.
 
-The major steps to migrate are:
-0. Backup your puppetmaster(!)
+The major steps to migrate are: 
+* Backup your puppetmaster(!)
+Then:
 1. Provision an RDS PostgreSQL server
 2. Shutdown all puppet components except pe-postgresql
 3. Database dump on puppet master
@@ -29,6 +30,9 @@ The major steps to migrate are:
 From the Amazon RDS control panel, click 'Launch a DB Instance' and follow the
 on-screen instructions.  Be sure to allocate adequate resources and to choose
 the appropriate options for production if required.
+
+Use the name `root` for your database admin user or you will have to modify the
+loader script with your choice.
 
 On the Advanced Settings page, leave the database name field blank to avoid 
 creating an unnecessary database.
@@ -60,9 +64,11 @@ secure before creating the dump.
 
 Once your ready, run the script `dump_puppet_dbs.sh` and the required data will
 be saved to the current directory.  You need to run the script as `root` so 
-that it can `su` to the `pe-postgres` user to perform the dumps
+that it can `su` to the `pe-postgres` user to perform the dumps.
 
 ### Database restore on RDS PostgreSQL server
+
+
 ### Update puppetmaster to use the RDS PostgreSQL server
 
 ### Test
@@ -74,7 +80,7 @@ ensure your not being affected by [PE-7078](https://tickets.puppetlabs.com/brows
 otherwise, follow the troubleshooting steps below.
 
 ## Troubleshooting
-* In-case of connection errors check:
+In-case of connection errors check:
 1. Connectivity from puppetmaster to 5432 on Amazon RDS host using telnet or 
    simlar
 2. Connection to database using the `/opt/puppet/bin/psql` command
