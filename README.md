@@ -1,4 +1,4 @@
-#pe_rds_import_scripts
+#RDS Import procedure for Puppet Enterprise
 
 Quick and dirty BASH scripts, awkfoo and procedure to load data from Puppet 
 Enterprise 3.7.1+ into Amazon RDS.
@@ -19,6 +19,7 @@ committing to a migration.
 The major steps to migrate are: 
 * Backup your puppetmaster(!)
 Then:
+
 1. Provision an RDS PostgreSQL server
 2. Shutdown all puppet components except pe-postgresql
 3. Database dump on puppet master
@@ -81,8 +82,9 @@ otherwise, follow the troubleshooting steps below.
 
 ## Troubleshooting
 In-case of connection errors check:
-1. Connectivity from puppetmaster to 5432 on Amazon RDS host using telnet or 
-   simlar
+
+1. Connectivity from puppetmaster to port 5432 on Amazon RDS server using 
+   telnet or similar
 2. Connection to database using the `/opt/puppet/bin/psql` command
 3. Correct database connection parameters in the following files, pay 
    particular attention to changes that could have been made by a puppet run
