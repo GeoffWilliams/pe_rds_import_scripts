@@ -1,0 +1,177 @@
+naws.com
+SET
+SET
+SET
+ERROR:  role "console" does not exist
+ERROR:  role "pe-activity" does not exist
+ERROR:  role "pe-classifier" does not exist
+ERROR:  role "pe-postgres" does not exist
+ERROR:  role "pe-puppetdb" does not exist
+ERROR:  role "pe-rbac" does not exist
+CREATE ROLE
+ALTER ROLE
+CREATE ROLE
+ALTER ROLE
+CREATE ROLE
+ALTER ROLE
+CREATE ROLE
+ALTER ROLE
+CREATE ROLE
+ALTER ROLE
+CREATE ROLE
+ALTER ROLE
+GRANT ROLE
+processing template1.bin_sql...
+SET
+SET
+SET
+SET
+SET
+ERROR:  cannot drop a template database
+ERROR:  database "template1" already exists
+ALTER DATABASE
+CREATE EXTENSION
+ERROR:  extension "plpgsql" already exists
+CREATE EXTENSION
+pg_restore: [archiver (db)] Error while PROCESSING TOC:
+pg_restore: [archiver (db)] Error from TOC entry 2784; 0 0 COMMENT EXTENSION plpgsql 
+pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of extension plpgsql
+    Command was: COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+WARNING: errors ignored on restore: 1
+processing console.bin_sql...
+SET
+SET
+SET
+SET
+SET
+ERROR:  database "console" does not exist
+CREATE DATABASE
+ALTER DATABASE
+CREATE EXTENSION
+ERROR:  extension "plpgsql" already exists
+CREATE EXTENSION
+pg_restore: [archiver (db)] Error while PROCESSING TOC:
+pg_restore: [archiver (db)] Error from TOC entry 3032; 0 0 COMMENT EXTENSION plpgsql 
+pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of extension plpgsql
+    Command was: COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+WARNING: errors ignored on restore: 1
+processing pe-activity.bin_sql...
+SET
+SET
+SET
+SET
+SET
+ERROR:  database "pe-activity" does not exist
+CREATE DATABASE
+ALTER DATABASE
+CREATE EXTENSION
+ERROR:  extension "plpgsql" already exists
+CREATE EXTENSION
+pg_restore: [archiver (db)] Error while PROCESSING TOC:
+pg_restore: [archiver (db)] Error from TOC entry 2839; 0 0 COMMENT EXTENSION plpgsql 
+pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of extension plpgsql
+    Command was: COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+WARNING: errors ignored on restore: 1
+processing pe-classifier.bin_sql...
+SET
+SET
+SET
+SET
+SET
+ERROR:  database "pe-classifier" does not exist
+CREATE DATABASE
+ALTER DATABASE
+CREATE EXTENSION
+ERROR:  extension "plpgsql" already exists
+CREATE EXTENSION
+pg_restore: [archiver (db)] Error while PROCESSING TOC:
+pg_restore: [archiver (db)] Error from TOC entry 2904; 0 0 COMMENT EXTENSION plpgsql 
+pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of extension plpgsql
+    Command was: COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+WARNING: errors ignored on restore: 1
+processing pe-puppetdb.bin_sql...
+SET
+SET
+SET
+SET
+SET
+ERROR:  database "pe-puppetdb" does not exist
+CREATE DATABASE
+ALTER DATABASE
+CREATE EXTENSION
+ERROR:  extension "plpgsql" already exists
+CREATE EXTENSION
+pg_restore: [archiver (db)] Error while PROCESSING TOC:
+pg_restore: [archiver (db)] Error from TOC entry 3003; 0 0 COMMENT EXTENSION plpgsql 
+pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of extension plpgsql
+    Command was: COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+WARNING: errors ignored on restore: 1
+processing pe-rbac.bin_sql...
+SET
+SET
+SET
+SET
+SET
+ERROR:  database "pe-rbac" does not exist
+CREATE DATABASE
+ALTER DATABASE
+CREATE EXTENSION
+ERROR:  extension "plpgsql" already exists
+CREATE EXTENSION
+pg_restore: [archiver (db)] Error while PROCESSING TOC:
+pg_restore: [archiver (db)] Error from TOC entry 2964; 0 0 COMMENT EXTENSION plpgsql 
+pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of extension plpgsql
+    Command was: COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+
+pg_restore: [archiver (db)] Error from TOC entry 2965; 0 0 COMMENT EXTENSION citext 
+pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of extension citext
+    Command was: COMMENT ON EXTENSION citext IS 'data type for case-insensitive character strings';
+
+
+
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges could be revoked for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+pg_restore: WARNING:  no privileges were granted for "public"
+WARNING: errors ignored on restore: 2
+Removing temporary password
+ALTER ROLE
+DON'T FORGET TO CLEANUP YOUR ~/.pgpass FILE!
+

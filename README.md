@@ -71,6 +71,10 @@ Once your ready, run the script `dump_puppet_dbs.sh` and the required data will
 be saved to the current directory.  You need to run the script as `root` so 
 that it can `su` to the `pe-postgres` user to perform the dumps.
 
+After the database has been dumped, you have no further use for the vendored 
+`pe-postgres` installation so it should be shutdown and de-activated to stop it
+starting on boot and potentially contaminating your testing.
+
 ### Database restore on RDS PostgreSQL server
 You would normally restore data as the superuser but this account isn't 
 available to you on RDS and you will get permission errors if you try to use 
@@ -95,17 +99,93 @@ See link above for details of the `.pgpass` file format.
 
 #### Import
 
-  The `load_data.sh`
+You should now be able to load data into the RDS instance with the 
+`load_data.sh` script.  This script takes one argument - the hostname of the 
+RDS instance.
+
+You will find that you get errors and warnings when running the script.  Most
+of these are harmless but you should diligently check the output of the load 
+process to ensure there's nothing more sinister in there.  See file 
+`sample_load_output.txt` for an example of a successful load.
+
+If you are asked to type passwords at any time when running the script, then 
+something is wrong with your `.pgpass` file or you are experiencing 
+connectivity problems.  Refer to notes under troubleshooting in this case.
 
 ### Update puppetmaster to use the RDS PostgreSQL server
+Once the data has been loaded, the puppetmaster needs to be configured for the
+new database server by updating:
+
+**Connection settings in configuration files**
+Since the import process maintains the existing usernames and passwords, the 
+only thing that needs updating is the hostname of the database server.  The 
+`change_db_conf_string.sh` script will perform this change for you on each of 
+the files listed in the troubleshooting section by doing a global find and 
+replace:
+
+```
+./change_db_conf_string.sh NAME_OF_OLD_SERVER NAME_OF_NEW_SERVER
+```
+
+**CA authoritiy settings for Amazon RDS**
+Amazon make a CA root authority file available to authenticate SSL connections.
+Review the notes in the file `import_amazon_ca.sh` to ensure currancy, then 
+excecute the script.
+
+This will install the CA authority file to `/etc/puppetlabs/amazon_ca` and 
+update the database connection strings to use it.  This file is kept outside
+the usual `/etc/puppetlabs/puppet/ssl` directory as the file is not managed by
+the puppet CA.
+
+**Patching the `puppet_enterprise` module (only needed if JIRA unresolved)**
+The current version of Puppet Enterprise (3.7.1) hardcodes the CA authority 
+file [PE-7199](https://tickets.puppetlabs.com/browse/PE-7199).  To allow the 
+puppetmaster to use the Amazon CA file the `puppet_enterprise` module needs to
+be patched:
+
+```
+cp /opt/puppet/share/puppet/modules/puppet_enterprise/ /etc/puppetlabs/puppet/modules/ -R 
+cd /etc/puppetlabs/puppet/modules/puppet_enterprise
+patch -p1 < ~/pe_rds_import_scripts/puppetlabs-puppet_enterprise_jdbc_ssl_properties.diff
+
+```
+
+**Starting the puppet daemons**
+The puppet daemons (with the exception of `pe-postgres`) can now be restarted 
+or you may simply reboot.  Ensure that you have disabled the puppet agent 
+before doing this or you will have to repeat the steps above after puppet 
+*fixes* your puppetdb `database.ini` file.
+
+**Connection settings in console**
+Once services are restarted, login to the console and click the `
+Classification` tab, then click into the `PE Infrastructure` group and click 
+the `Classes` tab.
+
+i. Change the value for `database_host` to reflect the new RDS host
+ii. Add a new parameter `jdbc_ssl_properties` and set the value to:
+```
+?ssl=true&sslfactory=org.postgresql.ssl.jdbc4.LibPQFactory&sslmode=verify-full&sslrootcert=/etc/puppetlabs/amazon_ca/rds-ssl-ca-cert.pem
+```
+iii. Commit the changes
 
 ### Test
-Reboot the RDS instance and the puppetmaster.  When both are back up, login to 
-the puppetmaster and verify that the `pe-postgresql` service is stopped.  Then
-attempt to run puppet.  If puppet runs normally and your also able to login to 
-the console, then your migration process was successful.  If you see errors, 
-ensure your not being affected by [PE-7078](https://tickets.puppetlabs.com/browse/PE-7078),
-otherwise, follow the troubleshooting steps below.
+Puppet should now be fully configured for the new database server.  The first 
+test of this is to enable puppet and make sure the configuration files aren't 
+changed back to the old values:
+
+```
+puppet agent --enable
+puppet apply -t
+```
+
+If this works succesfully, you should now do an end-to-end test by rebooting 
+the puppetmaster.  If you see your database parameters being reverted instead,
+then you need to investigate the linked JIRA ticket and the reason for these 
+changes yourself.
+
+If after rebooting or during the initial puppet run you see connection errors, 
+ensure your not being affected by [PE-7078](https://tickets.puppetlabs.com/browse/PE-7078)
+, otherwise, follow the troubleshooting steps below.
 
 ## Troubleshooting
 In-case of connection errors check:
