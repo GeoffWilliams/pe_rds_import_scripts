@@ -206,6 +206,7 @@ test this by attempting to connect using the password in `.pgpass`:
 ```
 
 **Temporary files cleanup**
+
 1. This downloaded git repository 
 2. `~/.pgpass`
 3. Configuration backup files:
