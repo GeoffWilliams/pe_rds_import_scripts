@@ -24,13 +24,13 @@ template1"
 # the expense of less compatibility between versions
 for DB in $DBS ; do
 	echo "DUMPING ${DB}"
-	$SU_CMD "/opt/puppet/bin/pg_dump -F c $DB" > $DB.bin_sql
+	$SU_CMD "cd /tmp && /opt/puppet/bin/pg_dump -F c $DB" > $DB.bin_sql
 done
 
 # dump and fix users - must remove all options and flags or RDS pukes.  We also
 # set a password for the pe-postgres user so that we can connect as this user 
 # to perform the restore.
-$SU_CMD "/opt/puppet/bin/pg_dumpall --roles-only --clean" | \
+$SU_CMD "cd /tmp && /opt/puppet/bin/pg_dumpall --roles-only --clean" | \
 	awk '{ 	\
 		gsub(/ (NO)?SUPERUSER/, ""); 
 		gsub(/ INHERIT/, "");

@@ -53,8 +53,8 @@ Instead, individual databases need to be dumped along with the users they
 depend on.  These users need to be altered somewhat vs the `CREATE` statements
 obtainted from `pg_dumpall`.  
 
-The script will do this for you and *also sets a temporary password for the 
-`pe-postgres` database user* based on the value in the file 
+The script will do this for you and **also sets a temporary password for the 
+`pe-postgres` database user** based on the value in the file 
 `pe-postgres_password` - change the contents of this file to something more
 secure before creating the dump.
 
@@ -75,15 +75,15 @@ otherwise, follow the troubleshooting steps below.
 
 ## Troubleshooting
 * In-case of connection errors check:
-..1. Connectivity from puppetmaster to 5432 on Amazon RDS host using telnet or 
-     simlar
-..2. Connection to database using the `/opt/puppet/bin/psql` command
-..3. Correct database connection parameters in the following files, pay 
-     particular attention to changes that could have been made by a puppet run
-     or those relating to CA certificates/SSL settings: 
-...* `/etc/puppetlabs/puppet-dashboard/database.yml`
-...* `/etc/puppetlabs/console-services/conf.d/activity-database.conf`
-...* `/etc/puppetlabs/console-services/conf.d/classifier-database.conf`
-...* `/etc/puppetlabs/puppetdb/conf.d/database.ini`
-...* `/etc/puppetlabs/console-services/conf.d/rbac-database.conf`
-..4. Turn on [SQL logging on the RDS server](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.Concepts.PostgreSQL.html)
+1. Connectivity from puppetmaster to 5432 on Amazon RDS host using telnet or 
+   simlar
+2. Connection to database using the `/opt/puppet/bin/psql` command
+3. Correct database connection parameters in the following files, pay 
+   particular attention to changes that could have been made by a puppet run
+   or those relating to CA certificates/SSL settings: 
+  * `/etc/puppetlabs/puppet-dashboard/database.yml`
+  * `/etc/puppetlabs/console-services/conf.d/activity-database.conf`
+  * `/etc/puppetlabs/console-services/conf.d/classifier-database.conf`
+  * `/etc/puppetlabs/puppetdb/conf.d/database.ini`
+  * `/etc/puppetlabs/console-services/conf.d/rbac-database.conf`
+4. Turn on [SQL logging on the RDS server](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.Concepts.PostgreSQL.html)
