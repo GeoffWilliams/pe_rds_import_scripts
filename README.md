@@ -225,6 +225,7 @@ This guide assumes:
 * Amazon RDS running PostgreSQL 9.3.5
 * RHEL/CentOS 6.5 64bit
 * This git repository is checked out on the puppetmaster
+* All scripts run as `root` user
 
 ## Troubleshooting
 In-case of connection errors check:
