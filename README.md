@@ -4,7 +4,7 @@ Quick and dirty BASH scripts, awkfoo and procedure to load data from Puppet
 Enterprise 3.7.1+ into Amazon RDS.
 
 **There is no warranty if you choose to follow this guide and PuppetLabs do 
-not provide support for this** 
+not provide support for this.** 
 
 ##Procedure
 With a little awk-foo, its possible to take advantage of the Amazon RDS 
@@ -164,12 +164,12 @@ Once services are restarted, login to the console and click the `
 Classification` tab, then click into the `PE Infrastructure` group and click 
 the `Classes` tab.
 
-i. Change the value for `database_host` to reflect the new RDS host
-ii. Add a new parameter `jdbc_ssl_properties` and set the value to:
+1. Change the value for `database_host` to reflect the new RDS host
+2. Add a new parameter `jdbc_ssl_properties` and set the value to:
 ```
 ?ssl=true&sslfactory=org.postgresql.ssl.jdbc4.LibPQFactory&sslmode=verify-full&sslrootcert=/etc/puppetlabs/amazon_ca/rds-ssl-ca-cert.pem
 ```
-iii. Commit the changes
+3. Commit the changes
 
 ### Test
 Puppet should now be fully configured for the new database server.  The first 
